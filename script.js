@@ -2,11 +2,13 @@ const RANDOM_QUOTE_API_URL = 'http://api.quotable.io/random'
 const quoteDisplayElement = document.getElementById('quoteDisplay')
 const quoteInputElement = document.getElementById('quoteInput')
 const timerElement = document.getElementById('timer')
-
+let timeStarted = false;
 
 quoteInputElement.addEventListener('input', () => {
     const arrayQuote = quoteDisplayElement.querySelectorAll('span')
     const arrayValue = quoteInputElement.value.split('')
+    if(!timeStarted) startTimer()
+    timeStarted = true;
     let correct = true
     arrayQuote.forEach((characterSpan, index) => {
         const character = arrayValue[index]
@@ -24,7 +26,11 @@ quoteInputElement.addEventListener('input', () => {
         }
     })
     console.log('correct = ' + correct)
-    if(correct) renderNewQuote()
+    if(correct) {
+        renderNewQuote()
+        timeStarted = false
+        timerElement.innerText = 50;
+    }
 })
 function getRandomQuote() {
     return fetch(RANDOM_QUOTE_API_URL)
@@ -42,7 +48,7 @@ async function renderNewQuote(){
         quoteDisplayElement.appendChild(characterSpan)
     })
     quoteInputElement.value = null;
-    startTimer()
+    //startTimer()
 }
 
 let startTime
