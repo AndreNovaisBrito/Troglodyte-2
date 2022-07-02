@@ -4,14 +4,26 @@ const quoteInputElement = document.getElementById('quoteInput')
 const timerElement = document.getElementById('timer')
 let timeStarted = false;
 
+
 quoteInputElement.addEventListener('input', () => {
+    //Array that stores if the characters are correct or not
     const arrayQuote = quoteDisplayElement.querySelectorAll('span')
+    console.log("arrayQuote = " + arrayQuote)
+    //Store the input in an array
     const arrayValue = quoteInputElement.value.split('')
+    console.log("arrayValue =" + arrayValue)
     if(!timeStarted) startTimer()
-    timeStarted = true;
+    timeStarted = true
     let correct = true
+    //Arry that stores the input WORDS
+    let wordArray = quoteInputElement.value.split(' ')
+    console.log(word)
     arrayQuote.forEach((characterSpan, index) => {
+        //Array that stores the input characters
         const character = arrayValue[index]
+        //console.log(characterSpan.innerText)
+        console.log("character = " +character)
+        //Compares the input characters with the quote characters
         if (character == null){
             characterSpan.classList.remove('correct')
             characterSpan.classList.remove('incorrect')
@@ -25,11 +37,10 @@ quoteInputElement.addEventListener('input', () => {
             correct = false
         }
     })
-    console.log('correct = ' + correct)
+    //If all the characters are correct, the user wins
     if(correct) {
         renderNewQuote()
         timeStarted = false
-        timerElement.innerText = 50;
     }
 })
 function getRandomQuote() {
@@ -63,4 +74,5 @@ function startTimer() {
 function getTimerTime(){
     return Math.floor((new Date() - startTime) / 1000)
 }
+
 renderNewQuote()
